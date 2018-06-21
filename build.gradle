@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id "de.undercouch.download" version "3.4.3"
+}
+
+group 'wakingstones'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs "libs"
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+task downloadZipFile(type: Download) {
+    src 'https://download.scrolls.com/callersbane/server/CallersBane-Server.zip'
+    dest new File(buildDir, 'server.zip')
+}
+
+task downloadAndUnzipFile(dependsOn: downloadZipFile, type: Copy) {
+    from zipTree(downloadZipFile.dest)
+    into buildDir
+}
+
+task moveJar(dependsOn: downloadAndUnzipFile, type: Copy) {
+    from new File(new File(buildDir, 'CallersBane-Server'), "Server.jar")
+    into "libs"
+    rename "Server.jar", "scrolls-server.jar"
+}
+
+task prepareWorkspace(dependsOn: downloadAndUnzipFile) {
+}
