@@ -9,6 +9,22 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+    maven {
+        name = 'gradle-plugins'
+        url = 'https://plugins.gradle.org/m2'
+    }
+    maven {
+        name = 'sponge'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+    maven {
+        name = 'forge'
+        url = 'http://files.minecraftforge.net/maven'
+    }
+    maven {
+        name = 'minecraft'
+        url = 'https://libraries.minecraft.net/'
+    }
     mavenCentral()
     flatDir {
         dirs "libs"
@@ -18,6 +34,9 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'org.spongepowered:mixin:0.7.10-SNAPSHOT'
+    compile 'net.minecraft:launchwrapper:1.11'
+    runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
 }
 
 task downloadZipFile(type: Download) {
@@ -25,16 +44,33 @@ task downloadZipFile(type: Download) {
     dest new File(buildDir, 'server.zip')
 }
 
-task downloadAndUnzipFile(dependsOn: downloadZipFile, type: Copy) {
+task unzip(type: Copy) {
     from zipTree(downloadZipFile.dest)
-    into buildDir
+    into "${buildDir}/server"
 }
 
-task moveJar(dependsOn: downloadAndUnzipFile, type: Copy) {
-    from new File(new File(buildDir, 'CallersBane-Server'), "Server.jar")
+task moveJar(type: Copy) {
+    from "${buildDir}/server/CallersBane-Server/Server.jar"
     into "libs"
     rename "Server.jar", "scrolls-server.jar"
 }
 
-task prepareWorkspace(dependsOn: downloadAndUnzipFile) {
+task copyLibs(type: Copy) {
+    from "${buildDir}/server/CallersBane-Server/lib"
+    include "*.jar"
+    into "libs"
+}
+
+task copyConfigs(type: Copy) {
+    from "${buildDir}/server/CallersBane-Server/cfg"
+    include "*.xml"
+    into "cfg"
+}
+
+task cleanup(type: Delete) {
+    delete "${buildDir}/server", "server.zip"
+}
+
+task prepareWorkspace (type: GradleBuild){
+    tasks = ['downloadZipFile', 'unzip', 'moveJar', 'copyLibs', 'copyConfigs', 'cleanup']
 }
