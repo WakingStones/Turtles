@@ -10,7 +10,6 @@ public class MixinServer {
 
     @Inject(method="main", at = @At("HEAD"))
     private static void main (String[] args, CallbackInfo ci) {
-        System.out.println("Injection worked");
+        System.out.println("Mixin hooks are confirmed to be loadable on the server now");
     }
-
 }

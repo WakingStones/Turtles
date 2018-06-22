@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    runtime fileTree(dir: 'libs', include: ['*.jar', '*.cfg'])
     compile 'org.spongepowered:mixin:0.7.10-SNAPSHOT'
     compile 'net.minecraft:launchwrapper:1.11'
     runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
@@ -51,11 +51,11 @@ task unzip(type: Copy) {
 task moveJar(type: Copy) {
     from "${buildDir}/server/CallersBane-Server/Server.jar"
     into "libs"
-    rename "Server.jar", "scrolls-server.jar"
+    rename "Server.jar", "callersbane-server.jar"
 }
 
 task copyLibs(type: Copy) {
-    from "${buildDir}/server/CallersBane-Server/lib"
+    from "${buildDir}/server/CallersBane-Server/lib/"
     include "*.jar"
     into "libs"
 }
@@ -67,7 +67,7 @@ task copyConfigs(type: Copy) {
 }
 
 task cleanup(type: Delete) {
-    delete "${buildDir}/server", "server.zip"
+    delete "${buildDir}/server", "${buildDir}/server.zip"
 }
 
 task prepareWorkspace (type: GradleBuild){

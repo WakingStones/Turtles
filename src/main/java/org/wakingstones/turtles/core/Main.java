@@ -5,14 +5,11 @@ import org.spongepowered.asm.launch.MixinBootstrap;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String[] args) {
         String[] a = new String[] {
                 "--tweakClass","org.wakingstones.turtles.core.CallersBaneTweaker"
         };
 
         Launch.main(a);
-
-        //Server.main(args);
     }
 }
