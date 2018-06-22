@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.7.2",
+  "package": "org.wakingstones.turtles.mixins",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "priority": 1111,
+  "server": [
+    "MixinPlayMultiplayerQuickMatch",
+    "MixinServer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
