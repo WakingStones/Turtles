@@ -32,7 +32,10 @@ repositories {
 }
 
 dependencies {
-    runtime fileTree(dir: 'libs', include: ['*.jar', '*.cfg'])
+    compile fileTree(dir: 'lib', include: ['*.jar', '*.cfg'], exclude: [
+            "gson-2.2.3.jar",
+            "guava-15.0.jar"
+    ])
     compile 'org.spongepowered:mixin:0.7.10-SNAPSHOT'
     compile 'net.minecraft:launchwrapper:1.11'
     //runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
@@ -50,7 +53,7 @@ task unzip(type: Copy) {
 
 task moveJar(type: Copy) {
     from "${buildDir}/server/CallersBane-Server/Server.jar"
-    into "libs"
+    into "lib"
     rename "Server.jar", "callersbane-server.jar"
 }
 
@@ -71,12 +74,20 @@ task cleanup(type: Delete) {
 }
 
 task copyToLib(type: Copy) {
-    into "$buildDir/libs/libs"
-    from configurations.runtime
+    into "$buildDir/libs/lib"
+    //removes the included libraries that Caller's Bane has
+    from(configurations.compile - fileTree("lib"))
 }
 
-task prepareWorkspace (type: GradleBuild){
+task prepareWorkspace(type: GradleBuild) {
     tasks = ['downloadZipFile', 'unzip', 'moveJar', 'copyLibs', 'copyConfigs', 'cleanup']
 }
 
-build.dependsOn(copyToLib)
+task generateRunScript() {
+    doLast {
+        new File("$buildDir/libs/startServer.sh").text = """java -Dio.netty.epollBugWorkaround=true -Dscrolls.mode=PROD -Dscrolls.node.id=test-server -cp "turtles-1.0-SNAPSHOT.jar;Server.jar;lib/*;cfg/;" org.wakingstones.turtles.core.Main"""
+        new File("$buildDir/libs/startServer.bat").text = """java -Dio.netty.epollBugWorkaround=true -Dscrolls.mode=PROD -Dscrolls.node.id=test-server -cp "turtles-1.0-SNAPSHOT.jar;Server.jar;lib/*;cfg/;" org.wakingstones.turtles.core.Main"""
+    }
+}
+
+build.dependsOn(copyToLib, generateRunScript)
