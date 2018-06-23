@@ -1,7 +1,6 @@
 package org.wakingstones.turtles.core;
 
 import net.minecraft.launchwrapper.Launch;
-import org.spongepowered.asm.launch.MixinBootstrap;
 
 public class Main {
 

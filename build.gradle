@@ -35,7 +35,7 @@ dependencies {
     runtime fileTree(dir: 'libs', include: ['*.jar', '*.cfg'])
     compile 'org.spongepowered:mixin:0.7.10-SNAPSHOT'
     compile 'net.minecraft:launchwrapper:1.11'
-    runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
+    //runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
 }
 
 task downloadZipFile(type: Download) {
@@ -70,6 +70,13 @@ task cleanup(type: Delete) {
     delete "${buildDir}/server", "${buildDir}/server.zip"
 }
 
+task copyToLib(type: Copy) {
+    into "$buildDir/libs/libs"
+    from configurations.runtime
+}
+
 task prepareWorkspace (type: GradleBuild){
     tasks = ['downloadZipFile', 'unzip', 'moveJar', 'copyLibs', 'copyConfigs', 'cleanup']
 }
+
+build.dependsOn(copyToLib)

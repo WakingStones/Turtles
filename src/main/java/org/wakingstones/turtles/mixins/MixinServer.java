@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(platform.Server.class)
 public class MixinServer {
 
-    @Inject(method="main", at = @At("HEAD"))
+    @Inject(method="main", at = @At("HEAD"), remap = false)
     private static void main (String[] args, CallbackInfo ci) {
         System.out.println("Mixin hooks are confirmed to be loadable on the server now");
     }

@@ -3,7 +3,6 @@ package org.wakingstones.turtles.mixins;
 import battle.Game;
 import org.spongepowered.asm.mixin.Mixin;
 import platform.message.Message;
-import platform.message.play.PlayGameMessage;
 import platform.message.play.PlayMultiPlayerQuickMatch;
 import platform.message.play.PlayRatingBasedGameMessage;
 

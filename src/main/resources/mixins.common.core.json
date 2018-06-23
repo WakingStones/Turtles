@@ -4,12 +4,13 @@
   "package": "org.wakingstones.turtles.mixins",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
-  "priority": 1111,
+  "priority": 1,
   "server": [
-    "MixinPlayMultiplayerQuickMatch",
+    "MixinPlayMultiPlayerQuickMatch",
     "MixinServer"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "verbose": true
 }

@@ -1,17 +1,13 @@
 package org.wakingstones.turtles.core;
 
-import joptsimple.OptionSet;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
-import org.spongepowered.asm.mixin.extensibility.IRemapper;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.spongepowered.asm.mixin.MixinEnvironment.Side.SERVER;
