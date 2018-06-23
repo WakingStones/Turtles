@@ -60,13 +60,7 @@ task moveJar(type: Copy) {
 task copyLibs(type: Copy) {
     from "${buildDir}/server/CallersBane-Server/lib/"
     include "*.jar"
-    into "libs"
-}
-
-task copyConfigs(type: Copy) {
-    from "${buildDir}/server/CallersBane-Server/cfg"
-    include "*.xml"
-    into "cfg"
+    into "lib"
 }
 
 task cleanup(type: Delete) {
@@ -80,7 +74,7 @@ task copyToLib(type: Copy) {
 }
 
 task prepareWorkspace(type: GradleBuild) {
-    tasks = ['downloadZipFile', 'unzip', 'moveJar', 'copyLibs', 'copyConfigs', 'cleanup']
+    tasks = ['downloadZipFile', 'unzip', 'moveJar', 'copyLibs', 'cleanup']
 }
 
 task generateRunScript() {
