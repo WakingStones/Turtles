@@ -79,7 +79,7 @@ task prepareWorkspace(type: GradleBuild) {
 
 task generateRunScript() {
     doLast {
-        new File("$buildDir/libs/startServer.sh").text = """java -Dio.netty.epollBugWorkaround=true -Dscrolls.mode=PROD -Dscrolls.node.id=test-server -cp "turtles-1.0-SNAPSHOT.jar;Server.jar;lib/*;cfg/;" org.wakingstones.turtles.core.Main"""
+        new File("$buildDir/libs/startServer.sh").text = """java -Dio.netty.epollBugWorkaround=true -Dscrolls.mode=PROD -Dscrolls.node.id=test-server -cp "turtles-1.0-SNAPSHOT.jar:Server.jar:lib/*:cfg/:" org.wakingstones.turtles.core.Main"""
         new File("$buildDir/libs/startServer.bat").text = """java -Dio.netty.epollBugWorkaround=true -Dscrolls.mode=PROD -Dscrolls.node.id=test-server -cp "turtles-1.0-SNAPSHOT.jar;Server.jar;lib/*;cfg/;" org.wakingstones.turtles.core.Main"""
     }
 }
