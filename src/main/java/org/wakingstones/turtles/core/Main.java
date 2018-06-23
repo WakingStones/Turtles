@@ -17,7 +17,7 @@ public class Main {
         };
 
         for (String s : DUPE_LIBRARIES) {
-            new File("libs", s).delete();
+            new File("lib", s).delete();
         }
 
         Launch.main(a);

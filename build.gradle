@@ -84,4 +84,13 @@ task generateRunScript() {
     }
 }
 
+jar {
+    manifest {
+        attributes(
+                "Class-Path": "Server.jar lib/ cfg/",
+                "Main-Class": "org.wakingstones.turtles.core.Main"
+        )
+    }
+}
+
 build.dependsOn(copyToLib, generateRunScript)
