@@ -13,7 +13,7 @@ import platform.message.account.RegisterAccount;
 @Mixin(RegisterAccount.class)
 public abstract class MixinRegisterAccount extends ReceivableMessage implements AuthenticationNotRequired {
 
-    @Shadow
+    @Shadow(remap = false)
     String username;
 
     @Inject(method="handle", at = @At("HEAD"), remap = false, cancellable = true)
