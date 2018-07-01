@@ -9,11 +9,11 @@ public abstract class MixinProfileData {
 
     @ModifyConstant(remap = false, method = "getTopRanked")
     private static String fixGetTopRanked(String input) {
-        return input + " WHERE p.admin_role != 'System' AND p.user_uuid NOT IN ('@limited', '@marketplace', 'Shopkeeper', 'Upgrade')";
+        return "SELECT P.name, PD.alpha_ranked * PD.real_ranked AS rating FROM profiles P INNER JOIN profile_data PD ON PD.profile_id = P.id ORDER BY rating DESC";
     }
 
     @ModifyConstant(remap = false, method = "getTopRankedProfiles")
     private static String fixGetTopRankedProfiles(String input) {
-        return input + " WHERE p.admin_role != 'System' AND p.user_uuid NOT IN ('@limited', '@marketplace', 'Shopkeeper', 'Upgrade')";
+        return "SELECT p.* FROM profile_data PD INNER JOIN profiles p ON p.id = PD.profile_id ORDER BY (pd.alpha_ranked * pd.real_ranked) DESC";
     }
 }
