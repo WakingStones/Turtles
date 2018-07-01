@@ -8,6 +8,7 @@
   "server": [
     "MixinPlayMultiPlayerQuickMatch",
     "MixinRegisterAccount",
+    "MixinProfileData",
     "MixinServer"
   ],
   "injectors": {
