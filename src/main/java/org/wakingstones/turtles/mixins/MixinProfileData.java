@@ -13,7 +13,7 @@ public abstract class MixinProfileData extends BaseEntity<Integer> {
 
     @ModifyConstant(remap = false, method = "getTopRanked")
     private static String fixSql(String input) {
-        return input + " WHERE p.admin_role != 'System' AND p.user_uuid NOT IN ('@limited', '@miarketplace', 'Shopkeeper', 'Upgrade')";
+        return input + " WHERE p.admin_role != 'System' AND p.user_uuid NOT IN ('@limited', '@marketplace', 'Shopkeeper', 'Upgrade')";
     }
 
 }
