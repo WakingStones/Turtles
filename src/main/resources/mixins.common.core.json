@@ -9,7 +9,8 @@
     "MixinPlayMultiPlayerQuickMatch",
     "MixinRegisterAccount",
     "MixinProfileData",
-    "MixinServer"
+    "MixinServer",
+    "MixinMarketplaceOfferFinder"
   ],
   "injectors": {
     "defaultRequire": 1
