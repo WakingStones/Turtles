@@ -96,6 +96,7 @@ jar {
                 "Main-Class": "org.wakingstones.turtles.core.Main"
         )
     }
+    exclude("**/hibernate.cfg.xml")
 }
 
 build.dependsOn(copyToLib, generateRunScript)
