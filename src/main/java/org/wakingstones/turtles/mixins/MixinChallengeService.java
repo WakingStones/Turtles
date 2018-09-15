@@ -8,7 +8,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.wakingstones.turtles.core.challenges.GameChallenge;
+import platform.game.GameServer;
 import platform.message.challenge.GameChallengeResponse;
+import platform.message.chat.ChatMessage;
+import platform.message.chat.Whisper;
 import platform.message.cluster.BattleRedirect;
 import platform.model.entity.Profile;
 import platform.model.entity.Server;
@@ -17,6 +20,7 @@ import platform.model.entity.setup.SetupPipeEntity;
 import platform.service.ChallengeService;
 import platform.service.ClusterService;
 import platform.service.MessageCenter;
+import platform.service.QueueService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +41,9 @@ public class MixinChallengeService {
             if (customChallenges.get(to.id()) != null) {
                 GameChallenge c = customChallenges.remove(to.id());
 
+                QueueService.removeFromAllQueues(from);
+                QueueService.removeFromAllQueues(to);
+
                 MessageCenter.post(GameChallengeResponse.accept(from, to), from);
                 MessageCenter.post(GameChallengeResponse.accept(to, from), to);
 
@@ -50,6 +57,7 @@ public class MixinChallengeService {
                 }
             } else {
                 customChallenges.put(from.id(), new GameChallenge(from, to, deck, setupCode, cge));
+                Whisper.systemWhisper(to.name, "You have been challenged by " + from.name + " to a game! Challenge them back to accept.");
             }
         }
     }
