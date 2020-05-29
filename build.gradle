@@ -1,12 +1,19 @@
 plugins {
     id 'java'
     id "de.undercouch.download" version "3.4.3"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
 }
 
-group 'wakingstones'
-version '1.0-SNAPSHOT'
+group 'org.wakingstones'
+version '2.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+
+ext.buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
+ext.ciSystem = project.hasProperty("ciSystem") ? ciSystem : 'unknown'
+ext.commit = project.hasProperty("commit") ? commit : 'unknown'
+ext.asmVersion = project.hasProperty("asmVersion") ? asmVersion : '6.2'
+ext.legacyForgeAsmVersion = project.hasProperty("legacyForgeAsmVersion") ? asmVersion : '5.0.3'
 
 repositories {
     maven {
@@ -36,8 +43,11 @@ dependencies {
             "gson-2.2.3.jar",
             "guava-15.0.jar"
     ])
-    compile 'org.spongepowered:mixin:0.7.10-SNAPSHOT'
+    compile 'org.spongepowered:mixin:0.8'
     compile 'net.minecraft:launchwrapper:1.11'
+    compile 'com.google.guava:guava:21.0'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'org.ow2.asm:asm-debug-all:5.2'
 
     //runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
 }
@@ -92,11 +102,15 @@ task generateRunScript() {
 jar {
     manifest {
         attributes(
-                "Class-Path": "Server.jar lib/* cfg/*",
+                "Class-Path": "Server.jar cfg/ " + fileTree("lib").collect({relativePath(it) }).join(" ").replaceAll("\\\\", "/")
+                        + " lib/" + configurations.compile.filter({it.isFile()}).files.name.join(" lib/"),
                 "Main-Class": "org.wakingstones.turtles.core.Main"
         )
     }
     exclude("**/hibernate.cfg.xml")
 }
 
-build.dependsOn(copyToLib, generateRunScript)
+shadowJar {
+}
+
+build.dependsOn(generateRunScript, copyToLib)
