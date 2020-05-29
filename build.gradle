@@ -9,12 +9,6 @@ version '2.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-ext.buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
-ext.ciSystem = project.hasProperty("ciSystem") ? ciSystem : 'unknown'
-ext.commit = project.hasProperty("commit") ? commit : 'unknown'
-ext.asmVersion = project.hasProperty("asmVersion") ? asmVersion : '6.2'
-ext.legacyForgeAsmVersion = project.hasProperty("legacyForgeAsmVersion") ? asmVersion : '5.0.3'
-
 repositories {
     maven {
         name = 'gradle-plugins'
@@ -33,23 +27,18 @@ repositories {
         url = 'https://libraries.minecraft.net/'
     }
     mavenCentral()
-    flatDir {
-        dirs "libs"
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar', '*.cfg'], exclude: [
-            "gson-2.2.3.jar",
-            "guava-15.0.jar"
+            "gson-*.jar",
+            "guava-*.jar"
     ])
     compile 'org.spongepowered:mixin:0.8'
     compile 'net.minecraft:launchwrapper:1.11'
     compile 'com.google.guava:guava:21.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'org.ow2.asm:asm-debug-all:5.2'
-
-    //runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
 }
 
 configurations {

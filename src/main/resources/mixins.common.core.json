@@ -6,7 +6,9 @@
   "compatibilityLevel": "JAVA_8",
   "priority": 1,
   "server": [
-    "MixinServer"
+    "MixinServer",
+    "MixinBattleRules",
+    "MixinClassMapping"
   ],
   "injectors": {
     "defaultRequire": 1
