@@ -6,3 +6,6 @@ libs/
 logs/
 out/
 .mixin.out/
+bin/
+.settings/
+.project
