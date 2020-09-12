@@ -1,11 +1,9 @@
 package org.wakingstones.turtles.mixins;
 
-import battle.rule.Rule;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.wakingstones.turtles.core.RuleRegistry;
 import org.wakingstones.turtles.rules.CustomRule;
 import platform.model.entity.card.RuleDescEntity;
 import platform.util.LogUtil;
@@ -47,13 +45,13 @@ public abstract class MixinClassMapping implements IClassProvider {
 
                     try {
                         idField.set(entity, rule.name());
-                        displayNameField.set(entity, rule.displayName());
+                        displayNameField.set(entity, rule.defaultDisplayName());
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException((e));
                     }
 
-                    entity.description = rule.description();
-                    entity.isPassive = rule.isPassive();
+                    entity.description = rule.defaultDescription();
+                    entity.isPassive = rule.defaultIsPassive();
                     entity.save();
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();

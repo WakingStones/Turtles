@@ -13,30 +13,30 @@ public interface CustomRule {
     }
 
     /**
-     * Gets the display name of this rule
+     * Gets the default display name of this rule if the database does not have this rule.
      * By default, this will be null, as the database expects null.
      *
      * @return Display name
      */
-    default String displayName() {
+    default String defaultDisplayName() {
         return null;
     }
 
     /**
-     * Gets the description of this rule.
+     * Gets the default description of this rule.
      * Any placeholders should be left, so that the game fills them in.
      * @return Description of the rule
      */
-    default String description() {
+    default String defaultDescription() {
         return "";
     }
 
     /**
-     * Gets whether the rule is passive.
+     * Gets whether the rule defaults to be passive.
      *
      * @return True if passive, false otherwise
      */
-    default boolean isPassive() {
+    default boolean defaultIsPassive() {
         return false;
     }
 }
