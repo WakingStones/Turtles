@@ -46,7 +46,7 @@ configurations {
 }
 
 task downloadZipFile(type: Download) {
-    src 'https://download.scrolls.com/callersbane/server/CallersBane-Server.zip'
+    src 'https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip'
     dest new File(buildDir, 'server.zip')
 }
 
