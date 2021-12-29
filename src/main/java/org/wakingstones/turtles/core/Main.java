@@ -1,6 +1,6 @@
 package org.wakingstones.turtles.core;
 
-import net.minecraft.launchwrapper.Launch;
+import cpw.mods.modlauncher.Launcher;
 
 import java.io.File;
 
@@ -13,13 +13,13 @@ public class Main {
 
     public static void main(String[] args) {
         String[] a = new String[]{
-                "--tweakClass", "org.wakingstones.turtles.core.CallersBaneTweaker"
+                "--launchTarget", "turtle"
         };
 
         for (String s : DUPE_LIBRARIES) {
             new File("lib", s).delete();
         }
 
-        Launch.main(a);
+        Launcher.main(a);
     }
 }

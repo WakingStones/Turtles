@@ -28,7 +28,7 @@ public abstract class MixinClassMapping implements IClassProvider {
         }
     }
 
-    @Inject(method="registerClass", at=@At("HEAD"), remap = false)
+    @Inject(method="registerClass", at=@At("HEAD"))
     public void onRegisterClass(Class<?> cl, CallbackInfo ci) {
         if (cl != null) {
             LogUtil.game.info("Registering rule class: " + cl.getName());

@@ -4,6 +4,10 @@ plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
 }
 
+ext {
+    ASM_VERSION = "9.1"
+}
+
 group 'org.wakingstones'
 version '2.0-SNAPSHOT'
 
@@ -20,7 +24,7 @@ repositories {
     }
     maven {
         name = 'forge'
-        url = 'http://files.minecraftforge.net/maven'
+        url = 'https://files.minecraftforge.net/maven'
     }
     maven {
         name = 'minecraft'
@@ -30,15 +34,19 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'lib', include: ['*.jar', '*.cfg'], exclude: [
+    implementation fileTree(dir: 'lib', include: ['*.jar', '*.cfg'], exclude: [
             "gson-*.jar",
             "guava-*.jar"
     ])
-    compile 'org.spongepowered:mixin:0.8'
-    compile 'net.minecraft:launchwrapper:1.11'
-    compile 'com.google.guava:guava:21.0'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'org.ow2.asm:asm-debug-all:5.2'
+    implementation 'org.spongepowered:mixin:0.8.3'
+    implementation 'cpw.mods:modlauncher:8.0.9'
+    implementation 'com.google.guava:guava:21.0'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation "org.ow2.asm:asm:${ASM_VERSION}"
+    implementation "org.ow2.asm:asm-commons:${ASM_VERSION}"
+    implementation "org.ow2.asm:asm-tree:${ASM_VERSION}"
+    implementation "org.ow2.asm:asm-util:${ASM_VERSION}"
+    implementation "org.ow2.asm:asm-analysis:${ASM_VERSION}"
 }
 
 configurations {
@@ -91,8 +99,7 @@ task generateRunScript() {
 jar {
     manifest {
         attributes(
-                "Class-Path": "Server.jar cfg/ " + fileTree("lib").collect({relativePath(it) }).join(" ").replaceAll("\\\\", "/")
-                        + " lib/" + configurations.compile.filter({it.isFile()}).files.name.join(" lib/"),
+                "Class-Path": "Server.jar cfg/ " + fileTree("lib").collect({relativePath(it) }).join(" ").replaceAll("\\\\", "/") + " lib/" + configurations.compile.filter({it.isFile()}).files.name.join(" lib/"),
                 "Main-Class": "org.wakingstones.turtles.core.Main"
         )
     }
