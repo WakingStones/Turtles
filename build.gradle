@@ -34,7 +34,7 @@ dependencies {
             "gson-*.jar",
             "guava-*.jar"
     ])
-    compile 'org.spongepowered:mixin:0.8'
+    compile 'org.spongepowered:mixin:0.8.5'
     compile 'net.minecraft:launchwrapper:1.11'
     compile 'com.google.guava:guava:21.0'
     compile 'com.google.code.gson:gson:2.2.4'
