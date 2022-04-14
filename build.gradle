@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id "de.undercouch.download" version "3.4.3"
     id "com.github.johnrengelman.shadow" version "5.2.0"
 }
@@ -20,7 +20,7 @@ repositories {
     }
     maven {
         name = 'forge'
-        url = 'http://files.minecraftforge.net/maven'
+        url = 'https://maven.minecraftforge.net/'
     }
     maven {
         name = 'minecraft'
@@ -30,15 +30,15 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'lib', include: ['*.jar', '*.cfg'], exclude: [
+    implementation fileTree(dir: 'lib', include: ['*.jar', '*.cfg'], exclude: [
             "gson-*.jar",
             "guava-*.jar"
     ])
-    compile 'org.spongepowered:mixin:0.8.5'
-    compile 'net.minecraft:launchwrapper:1.11'
-    compile 'com.google.guava:guava:21.0'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'org.ow2.asm:asm-debug-all:5.2'
+    implementation 'org.spongepowered:mixin:0.8.5'
+    implementation 'net.minecraft:launchwrapper:1.11'
+    implementation 'com.google.guava:guava:21.0'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'org.ow2.asm:asm-debug-all:5.2'
 }
 
 configurations {
