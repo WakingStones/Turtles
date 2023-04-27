@@ -8,7 +8,8 @@
   "server": [
     "MixinServer",
     "MixinBattleRules",
-    "MixinClassMapping"
+    "MixinClassMapping",
+    "MixinVars"
   ],
   "injectors": {
     "defaultRequire": 1
