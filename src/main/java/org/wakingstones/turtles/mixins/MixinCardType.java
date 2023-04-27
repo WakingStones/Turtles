@@ -93,8 +93,6 @@ public abstract class MixinCardType {
 
                 query.setParameter("name", card.name);
 
-                LogUtil.game.info(query.toString());
-
                 query.executeUpdate();
             }
 
