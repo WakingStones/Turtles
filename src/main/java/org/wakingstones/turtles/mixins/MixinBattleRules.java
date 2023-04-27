@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Objects;
 
 @Mixin(RuleFactory.class)
 public abstract class MixinBattleRules {

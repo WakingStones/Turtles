@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Gravelock Elder",
+    "rules": [
+      "AttackForwardRanged",
+      "Move",
+      "GravelockStrengthModifier"
+    ],
+    "type": [
+      "Gravelock"
+    ],
+    "attack": 10,
+    "cooldown": 10,
+    "hp": 32,
+    "costDecay": 0,
+    "costOrder": 0,
+    "costGrowth": 0,
+    "costEnergy": 20
+  }
+]

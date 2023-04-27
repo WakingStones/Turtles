@@ -9,7 +9,8 @@
     "MixinServer",
     "MixinBattleRules",
     "MixinClassMapping",
-    "MixinVars"
+    "MixinVars",
+    "MixinCardType"
   ],
   "injectors": {
     "defaultRequire": 1
