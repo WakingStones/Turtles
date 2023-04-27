@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.wakingstones'
-version '2.0-SNAPSHOT'
+version '3.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -35,58 +35,57 @@ dependencies {
             "guava-*.jar"
     ])
     implementation 'org.spongepowered:mixin:0.8.5'
-    implementation 'net.minecraft:launchwrapper:1.11'
+    implementation('net.minecraft:launchwrapper:1.11') {
+        exclude module: 'lwjgl'
+    }
     implementation 'com.google.guava:guava:21.0'
     implementation 'com.google.code.gson:gson:2.2.4'
     implementation 'org.ow2.asm:asm-debug-all:5.2'
 }
 
-configurations {
-    compile.exclude module: 'lwjgl'
-}
-
-task downloadZipFile(type: Download) {
+tasks.register('downloadZipFile', Download) {
     src 'https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip'
     dest new File(buildDir, 'server.zip')
 
 }
 
-task unzip(type: Copy) {
+tasks.register('unzip', Copy) {
     dependsOn(downloadZipFile)
     from zipTree(downloadZipFile.dest)
     into "${buildDir}/server"
 }
 
-task moveJar(type: Copy) {
+tasks.register('moveJar', Copy) {
     dependsOn(unzip)
     from "${buildDir}/server/CallersBane-Server/Server.jar"
     into "lib"
     rename "Server.jar", "callersbane-server.jar"
 }
 
-task copyLibs(type: Copy) {
+tasks.register('copyLibs', Copy) {
     dependsOn(unzip)
     from "${buildDir}/server/CallersBane-Server/lib/"
     include "*.jar"
     into "lib"
 }
 
-task cleanup(type: Delete) {
+tasks.register('cleanup', Delete) {
     dependsOn(copyLibs, moveJar)
     delete "${buildDir}/server", "${buildDir}/server.zip"
 }
 
-task copyToLib(type: Copy) {
-    into "$buildDir/libs/lib"
+tasks.register('copyToLib', Copy) {
     //removes the included libraries that Caller's Bane has
-    from(configurations.compile - fileTree("lib"))
+    //from(configurations.compile - fileTree("lib"))
+    from configurations.compileClasspath - fileTree("lib")
+    into "${buildDir}/libs/lib"
 }
 
-task prepareWorkspace(type: GradleBuild) {
+tasks.register('prepareWorkspace', GradleBuild) {
     tasks = ['downloadZipFile', 'unzip', 'moveJar', 'copyLibs', 'cleanup']
 }
 
-task generateRunScript() {
+tasks.register('generateRunScript') {
     doLast {
         new File("$buildDir/libs/startServer.sh").text = """java -Dio.netty.epollBugWorkaround=true -Dscrolls.mode=PROD -Dscrolls.node.id=test-server -jar turtles-${version}.jar"""
         new File("$buildDir/libs/startServer.bat").text = """java -Dio.netty.epollBugWorkaround=true -Dscrolls.mode=PROD -Dscrolls.node.id=test-server -jar turtles-${version}.jar"""
@@ -97,7 +96,7 @@ jar {
     manifest {
         attributes(
                 "Class-Path": "Server.jar cfg/ " + fileTree("lib").collect({relativePath(it) }).join(" ").replaceAll("\\\\", "/")
-                        + " lib/" + configurations.compile.filter({it.isFile()}).files.name.join(" lib/"),
+                        + " lib/" + configurations.compileClasspath.filter({it.isFile()}).files.name.join(" lib/"),
                 "Main-Class": "org.wakingstones.turtles.core.Main"
         )
     }
@@ -107,4 +106,4 @@ jar {
 shadowJar {
 }
 
-build.dependsOn(generateRunScript, copyToLib)
+tasks.named("build") { dependsOn(generateRunScript, copyToLib) }

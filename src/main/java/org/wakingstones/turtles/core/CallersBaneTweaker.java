@@ -37,7 +37,7 @@ public class CallersBaneTweaker implements ITweaker {
 
     @Override
     public String[] getLaunchArguments() {
-        return args.toArray(new String[args.size()]);
+        return args.toArray(new String[0]);
     }
 
     private static void configureLaunchClassLoader(LaunchClassLoader loader) {

@@ -1,0 +1,8 @@
+[
+  {
+    "name": "AescalonSpires",
+    "displayName": "",
+    "description": "When a unit is destroyed, it is re-summoned on the same tile, and ${NAME} counts down by 1.",
+    "isPassive": false
+  }
+]

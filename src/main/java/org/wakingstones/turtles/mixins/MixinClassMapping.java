@@ -28,31 +28,28 @@ public abstract class MixinClassMapping implements IClassProvider {
         }
     }
 
-    @Inject(method="registerClass", at=@At("HEAD"), remap = false)
+    @Inject(method = "registerClass", at = @At("HEAD"), remap = false)
     public void onRegisterClass(Class<?> cl, CallbackInfo ci) {
         if (cl != null) {
-            LogUtil.game.info("Registering rule class: " + cl.getName());
             if (cl != CustomRule.class && CustomRule.class.isAssignableFrom(cl)) {
+                LogUtil.game.info("Registering rule class: " + cl.getName());
                 try {
                     CustomRule rule = (CustomRule) cl.newInstance();
-                    RuleDescEntity entity = RuleDescEntity.findByName(rule.name());
                     //if it's null from the finder, then we need to create it
-                    if (entity != null) {
-                        return;
+                    if (RuleDescEntity.findByName(rule.name()) == null) {
+                        RuleDescEntity rde = new RuleDescEntity();
+
+                        try {
+                            idField.set(rde, rule.name());
+                            displayNameField.set(rde, rule.defaultDisplayName());
+                        } catch (IllegalAccessException e) {
+                            throw new RuntimeException((e));
+                        }
+
+                        rde.description = rule.defaultDescription();
+                        rde.isPassive = rule.defaultIsPassive();
+                        rde.save();
                     }
-
-                    entity = new RuleDescEntity();
-
-                    try {
-                        idField.set(entity, rule.name());
-                        displayNameField.set(entity, rule.defaultDisplayName());
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException((e));
-                    }
-
-                    entity.description = rule.defaultDescription();
-                    entity.isPassive = rule.defaultIsPassive();
-                    entity.save();
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
