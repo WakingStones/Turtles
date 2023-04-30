@@ -1,0 +1,15 @@
+FROM mariadb:10.5
+
+ARG callersbane_url="https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip"
+
+RUN apt update && \
+    apt install -y --no-install-recommends wget unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY db-healthcheck.sh *.zip ./
+
+RUN if [[ ! -f "callersbane.zip" ]]; then wget -O "callersbane.zip" "${callersbane_url}"; fi;
+
+RUN unzip callersbane.zip && \
+    rm -rf CallersBane-Server && \
+    mv callersbane_database.sql /docker-entrypoint-initdb.d/02-callersbane.sql

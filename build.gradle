@@ -44,9 +44,16 @@ dependencies {
 }
 
 tasks.register('downloadZipFile', Download) {
+    onlyIf {
+        !file("callersbane.zip").exists()
+    }
     src 'https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip'
-    dest new File(buildDir, 'server.zip')
+    dest new File('callersbane.zip')
+}
 
+tasks.register('copyExistingZip', Copy) {
+    from "callersbane.zip"
+    into "${buildDir}/server.zip"
 }
 
 tasks.register('unzip', Copy) {
@@ -82,7 +89,7 @@ tasks.register('copyToLib', Copy) {
 }
 
 tasks.register('prepareWorkspace', GradleBuild) {
-    tasks = ['downloadZipFile', 'unzip', 'moveJar', 'copyLibs', 'cleanup']
+    tasks = ['downloadZipFile', 'copyExistingZip', 'unzip', 'moveJar', 'copyLibs', 'cleanup']
 }
 
 tasks.register('generateRunScript') {
@@ -95,8 +102,8 @@ tasks.register('generateRunScript') {
 jar {
     manifest {
         attributes(
-                "Class-Path": "Server.jar cfg/ " + fileTree("lib").collect({relativePath(it) }).join(" ").replaceAll("\\\\", "/")
-                        + " lib/" + configurations.compileClasspath.filter({it.isFile()}).files.name.join(" lib/"),
+                "Class-Path": "Server.jar cfg/ " + fileTree("lib").collect({ relativePath(it) }).join(" ").replaceAll("\\\\", "/")
+                        + " lib/" + configurations.compileClasspath.filter({ it.isFile() }).files.name.join(" lib/"),
                 "Main-Class": "org.wakingstones.turtles.core.Main"
         )
     }
