@@ -6,7 +6,7 @@ COPY . .
 
 ARG callersbane_url="https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip"
 
-RUN if [[ ! -f "callersbane.zip" ]]; then wget -O "callersbane.zip" "${callersbane_url}"; fi;
+RUN /bin/bash -c 'if [[ ! -f "callersbane.zip" ]]; then wget -O "callersbane.zip" "${callersbane_url}"; fi;'
 
 RUN ./gradlew prepareWorkspace && \
     ./gradlew build
