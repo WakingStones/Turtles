@@ -9,17 +9,23 @@ chmod 600 ~/.my.cnf
 
 if [[ ! -f "Server.jar" ]]
 then
-  if [[ "${CALLERSBANE_URL}" = "https://*" ]]
+  if [[ ! -f "download/callersbane.zip" ]]
   then
-    curl -o callersbane.zip "${CALLERSBANE_URL}"
-  else
-    cp "${CALLERSBANE_URL}" callersbane.zip
+    mkdir -p download
+    curl -o download/callersbane.zip "https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip"
   fi
 
+  cp download/callersbane.zip .
   unzip callersbane.zip
 
   cp -rf CallersBane-Server/* .
   rm -rf CallersBane-Server
+
+  if [[ ! -f "Server.jar" ]]
+  then
+    echo "Failed to get Server.jar"
+    exit 1
+  fi
 fi
 
 while ! mysqladmin ping --silent

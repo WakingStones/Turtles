@@ -18,6 +18,9 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Download Callersbane
+        run: wget -O callersbane.zip "https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip"
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -33,17 +36,9 @@ jobs:
           name: Results
           path: build/libs/
 
-
-  build-docker:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Correct env
         run:
           echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
-
-      - name: Check out code into the proper directory
-        uses: actions/checkout@v2
 
       - name: Set up QEMU
         id: qemu

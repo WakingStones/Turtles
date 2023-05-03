@@ -1,17 +1,23 @@
-FROM openjdk:8-jdk as builder
+FROM openjdk:8 as builder
+
+RUN apt update && apt install -y --no-install-recommends dos2unix
 
 WORKDIR /buildpath
 
 COPY . .
 
-ARG callersbane_url="https://download.scrolls.com/callersbane/server/CallersBane-Server-2.0.1.zip"
-
 RUN /bin/bash -c 'if [[ ! -f "callersbane.zip" ]]; then wget -O "callersbane.zip" "${callersbane_url}"; fi;'
 
-RUN ./gradlew prepareWorkspace && \
+RUN dos2unix gradlew && \
+    chmod +x ./gradlew && \
+    ./gradlew prepareWorkspace && \
     ./gradlew build
 
 FROM openjdk:8
+
+RUN apt update && \
+    apt install -y mariadb-client && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /scrolls
 
@@ -22,7 +28,6 @@ COPY entrypoint.sh .
 
 ARG memory=4G
 
-ENV CALLERSBANE_URL=$callersbane_url
 ENV MEMORY=$memory
 ENV NODE_ID=test-server
 
