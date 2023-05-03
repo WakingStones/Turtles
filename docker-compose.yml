@@ -1,9 +1,7 @@
 version: "3.9"
 services:
   database:
-    build:
-      context: .
-      dockerfile: Dockerfile-database
+    image: mariadb:10.10
     restart: always
     environment:
       MYSQL_USER: scrolls
@@ -13,28 +11,19 @@ services:
     command: [ "mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci" ]
     volumes:
       - "dbdata:/var/lib/mysql"
-    healthcheck:
-      test: ["CMD", "./db-healthcheck.sh"]
-      start_period: 10s
-      retries: 3
-      interval: 10s
 
   scrolls:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/wakingstones/turtles:latest
     restart: always
     depends_on:
-      database:
-        condition: service_healthy
+      - database
     environment:
       SERVER_IP: localhost
       SERVER_PORT: 8081
       NODE_ID: test-server
-      DB_URL: "jdbc:mysql://database:3306/scrolls"
+      DB_URL: database
       DB_USER: scrolls
       DB_PASSWORD: scrolls
-      CALLERSBANE_URL: ""
     volumes:
       - "scrolls:/scrolls"
     ports:

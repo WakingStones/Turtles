@@ -16,7 +16,6 @@ FROM openjdk:8
 WORKDIR /scrolls
 
 COPY --from=builder /buildpath/build/libs ./
-COPY --from=builder /buildpath/callersbane.zip .
 
 COPY *.json ./
 COPY entrypoint.sh .
@@ -27,7 +26,7 @@ ENV CALLERSBANE_URL=$callersbane_url
 ENV MEMORY=$memory
 ENV NODE_ID=test-server
 
-ENV DB_URL="jdbc:mysql://127.0.0.1:3306/scrolls"
+ENV DB_HOST="database"
 ENV DB_USER=scrolls
 ENV DB_PASS=scrolls
 
