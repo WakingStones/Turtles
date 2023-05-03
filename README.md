@@ -4,21 +4,59 @@ This is a community-driven effort to allow changes to Caller's Bane, a game rele
 
 https://mojang.github.io/CallersBaneSiteArchive/
 
-## Using in Prod
+## Installation
 
-Using this in production requires you to already install Caller's Bane. Follow the directions in the zip from
-https://mojang.github.io/CallersBaneSiteArchive/.
+Using this requires you to already install Caller's Bane. Download the zip and extract it to a folder on your computer.
+https://mojang.github.io/CallersBaneSiteArchive/
 
 Notable things:
-- Java 8 is required https://adoptium.net/temurin/releases/?version=8
+- Java 8 is required (https://adoptium.net/temurin/releases/?version=8)
+- MariaDB 10.11 (recommended version, newer versions may not work) (https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.11.2&os=windows&cpu=x86_64&pkg=msi)
+- HeidiSQL (included with MariaDB)
 
+Install Java:
+- Use default values
 
-Download Turtle's latest artifacts from https://github.com/WakingStones/Turtles/actions (select latest run and artifacts
+Install MySQL:
+- Leave as all features. 
+- Set a root password.
+- Check the "Use UTF8 as default server's character set"
+- Install as a service
+
+Start HeidiSQL:
+- Select "New"
+- Set Hostname as "localhost"
+- Set "Password" to be the same password from above
+- Select "Save"
+- Connect to the new connection you just made
+- Select "File" -> "Run SQL File"
+- Navigate to the Callersbane folder you made before, select the "callersbane_database.sql" file. Select "Encoding" and change to UTF-8.
+- Select "Tools" -> "User Manager"
+- Select "Add".
+- On the right, set "User name" as scrolls. Set "Password" as "scrolls"
+- Select "Add object". Enter "scrolls" in the bottom textbox. 
+- Check the box next to "Database: scrolls"
+- Select "Save"
+
+Configure Scrolls:
+- Open the CallersBane-Server/cfg/hibernate.cfg.xml file
+- Set the username to "scrolls"
+- Set the password to "scrolls"
+- Save this file
+
+Run Scrolls as-is:
+- Run the localserver.bat file
+- Press CTRL+C after a few minutes to ensure the server is working correctly.
+
+Setting up Turtles:
+- Download Turtle's latest artifacts from https://github.com/WakingStones/Turtles/actions (select latest run and artifacts
 are at the bottom of the page)
+- Unzip into same place Caller's Bane Server.jar is located at (this is located in the CallerBane-Server folder).
 
-Unzip into same place Caller's Bane server is located at.
+Run Turtles:
+- Run the startServer.bat file
 
-Run the localserver.bat file
+Your server is now available at localhost, for local testing.
 
 ## Build
 
