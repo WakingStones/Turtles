@@ -9,7 +9,8 @@ COPY . .
 RUN /bin/bash -c 'if [[ ! -f "callersbane.zip" ]]; then wget -O "callersbane.zip" "${callersbane_url}"; fi;'
 
 RUN dos2unix gradlew && \
-    chmod +x ./gradlew && \
+    dos2unix entrypoint.sh && \
+    chmod +x gradlew entrypoint.sh && \
     ./gradlew prepareWorkspace && \
     ./gradlew build
 
@@ -22,9 +23,9 @@ RUN apt update && \
 WORKDIR /scrolls
 
 COPY --from=builder /buildpath/build/libs ./
+COPY --from=builder /buildpath/entrypoint.sh ./
 
 COPY *.json ./
-COPY entrypoint.sh .
 
 ARG memory=4G
 
