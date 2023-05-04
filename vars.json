@@ -3,5 +3,9 @@
     "key": "logging_enabled",
     "value": "true",
     "comment": "Note: Only read at startup. Logging information, warning and errors to file"
+  },
+  {
+    "key": "player_ensure_all_cards",
+    "value": "true"
   }
 ]
