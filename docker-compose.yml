@@ -11,6 +11,11 @@ services:
     command: [ "mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci" ]
     volumes:
       - "dbdata:/var/lib/mysql"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100M"
+        max-file: "5"
 
   scrolls:
     image: ghcr.io/wakingstones/turtles:latest
@@ -18,10 +23,10 @@ services:
     depends_on:
       - database
     environment:
-      SERVER_IP: localhost
+      SERVER_IP: ${SERVER_IP}
       SERVER_PORT: 8081
       NODE_ID: test-server
-      DB_URL: database
+      DB_HOST: database
       DB_USER: scrolls
       DB_PASSWORD: scrolls
     volumes:
@@ -29,6 +34,11 @@ services:
     ports:
       - "8081:8081"
       - "8082:8082"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100M"
+        max-file: "5"
 
 volumes:
   dbdata:

@@ -34,8 +34,8 @@ do
     sleep 1
 done
 
-result=$(mysql -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='scrolls'")
-if [ -z "$result" ]
+result=$(mysql -s -N -e "SELECT count(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='scrolls'")
+if [ "$result" -eq "0" ]
 then
   echo "Creating database"
   mysql < callersbane_database.sql
